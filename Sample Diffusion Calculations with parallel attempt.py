@@ -3,6 +3,12 @@
 Created on Thu May 28 09:07:40 2015
 
 @author: Jonathan Adams
+This website helped with the diffusion equations
+http://hplgit.github.io/num-methods-for-PDEs/doc/pub/diffu/sphinx/._main_diffu001.html
+
+This website helped with parallel programming implementation. Note: I did get 
+parallel programming to work, the map function on my computer worked with an
+operation that cubed values (managed to cut the time by 45%). 
 
 """
 import matplotlib.pyplot as plt
@@ -55,7 +61,8 @@ def makeFunction( x ):
 def diffuse(x, constant, pool):
     y = x
     length = len(x)
-    #pool = mp.Pool(processes = 5)
+    #if __name__ == '__main__':             #Necessary on windows machines, rest of pool must be indented
+    pool = mp.Pool(processes = 2)
     results = [pool.apply(eulerD, args=(x[i-1],x[i],x[i+1],constant,)) for i in range(1,length-1)]
     pool.close()
     for i in range(1,length-1):
